@@ -21,34 +21,33 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "github-token",
-			Usage:  "Github auth token",
+			Usage:  "Github OAuth token",
 			EnvVar: "GITHUB_TOKEN,GITHUB_PR_GITHUB_TOKEN,PLUGIN_GITHUB_TOKEN",
 		},
 		cli.IntFlag{
 			Name:   "number",
-			Usage:  "PR number to work with",
-			EnvVar: "GITHUB_SEARCH_DOWNSTREAM_BRANCH,PLUGIN_NUMBER,DRONE_PULL_REQUEST",
+			Usage:  "PR number",
+			EnvVar: "GITHUB_PR_NUMBER,PLUGIN_NUMBER,DRONE_PULL_REQUEST",
 		},
 		cli.StringFlag{
 			Name:   "action",
 			Usage:  "Trigger a drone build on a custom server",
-			EnvVar: "DRONE_SERVER,GITHUB_SEARCH_DOWNSTREAM_DRONE_SERVER,PLUGIN_DRONE_SERVER",
+			EnvVar: "GITHUB_PR_ACTION,PLUGIN_ACTION",
 		},
 		cli.StringFlag{
 			Name:   "message",
-			Usage:  "Drone API token from your user settings",
-			EnvVar: "DRONE_TOKEN,GITHUB_SEARCH_DOWNSTREAM_DRONE_TOKEN,PLUGIN_DRONE_TOKEN",
+			Usage:  "Comment to leave on PR and in merge commit",
+			EnvVar: "GITHUB_PR_MESSAGE,PLUGIN_MESSAGE,DRONE_COMMIT_MESSAGE",
 		},
 		cli.StringFlag{
 			Name:   "repo-owner",
 			Usage:  "Repo owner",
-			EnvVar: "DRONE_REPO_OWNER",
+			EnvVar: "GITHUB_PR_REPO_OWNER,PLUGIN_REPO_OWNER,DRONE_REPO_OWNER",
 		},
-
 		cli.StringFlag{
 			Name:   "repo-name",
 			Usage:  "Repo name",
-			EnvVar: "DRONE_REPO_NAME",
+			EnvVar: "GITHUB_PR_REPO_NAME,PLUGIN_REPO_NAME,DRONE_REPO_NAME",
 		},
 	}
 
@@ -66,6 +65,5 @@ func run(c *cli.Context) error {
 		RepoName:    c.String("repo-name"),
 		RepoOwner:   c.String("repo-owner"),
 	}
-
 	return plugin.Exec()
 }
