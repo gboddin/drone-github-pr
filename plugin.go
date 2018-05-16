@@ -91,7 +91,6 @@ func merge(client *github.Client, p *Plugin, mergeMethod string) error {
 	return nil
 }
 
-
 var state = struct {
 	Closed string
 	Open   string
