@@ -61,4 +61,3 @@ pipeline:
     when:
       event: pull_request
 ```
-
