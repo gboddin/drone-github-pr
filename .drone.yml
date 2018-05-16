@@ -133,3 +133,27 @@ pipeline:
     ignore_missing: true
     when:
       event: [ push, tag ]
+
+  github_build:
+    image: golang:1.10
+    commands:
+      - mkdir build
+      - mv release/linux/amd64/github-pr build/github-pr-linux-amd64
+      - mv release/linux/i386/github-pr build/github-pr-linux-386
+      - mv release/linux/arm/github-pr build/github-pr-linux-arm
+      - mv release/linux/arm64/github-pr build/github-pr-linux-arm
+      - GOOS=darwin GOARCH=amd64 go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o build/github-pr-macos-amd64
+      - GOOS=darwin GOARCH=386 go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o build/github-pr-macos-386
+      - GOOS=windows GOARCH=amd64 go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o build/github-pr-amd64.exe
+      - GOOS=windows GOARCH=386 go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o build/github-pr-386.exe
+    when:
+      event: tag
+
+  github_release:
+    image: plugins/github-release
+    secrets: [ github_token ]
+    files: build/**
+    checksum:
+      - sha256
+    when:
+      event: tag
