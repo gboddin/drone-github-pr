@@ -31,7 +31,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:   "action",
-			Usage:  "Trigger a drone build on a custom server",
+			Usage:  "Action to trigger ( one of comment, close, merge, rebase, squash )",
 			EnvVar: "GITHUB_PR_ACTION,PLUGIN_ACTION",
 		},
 		cli.StringFlag{
